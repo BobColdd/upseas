@@ -13,10 +13,11 @@
 }
 
 body {
-    background-color: #faf7f7;
+    background-image: url("{{ url_for('static', filename='back2.jpg') }}");
     color: #2d2626;
     min-height: 100vh;
     display: flex;
+    
     flex-direction: column;
 }
 
@@ -69,13 +70,25 @@ body {
 }
 
 /* Container */
-.container {
-    max-width: 700px;
-    margin: 48px auto;
-    padding: 0 24px;
-    width: 100%;
-    flex: 1;
+.login.card.container {
+  /* 1. Position the card relative to the screen */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  /* 2. Your existing styles */
+  background: #ffffff;
+  display: flex;
+  flex-direction: column; /* Keeps form items stacked vertically */
+  border-radius: 16px;
+  padding: 20px;
+  width: 80%;
+  max-width: 400px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.03), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+  border: 1px solid #e2e8f0;
 }
+
 
 .notes-section h1 {
     font-size: 1.8rem;
@@ -154,7 +167,7 @@ body {
     </div>
 </nav>
 
-<main class="container">
+<main class="login card container">
     <section class="notes-section">
         <h1>Welcome</h1>
         <div class="notes-body">
@@ -171,7 +184,7 @@ body {
             <a href="{{ url_for('tasks_page') }}" class="decision-btn secondary">Academic</a>
         </div>
     </section>
-</main>
 
+</main>
 </body>
 </html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPSEAS / Speaking Module</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #faf7f7;
+            color: #2d2626;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            height: 60px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #f0e6e6;
+            padding: 0 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .nav-brand {
+            font-weight: 600;
+            color: #e90505;
+            font-size: 1.1rem;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 0.9rem;
+            color: #7a6e6e;
+        }
+
+        .timer {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background-color: #fcf0f0;
+            color: #e90505;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1px solid #f8d7d7;
+        }
+
+        .container {
+            flex: 1;
+            padding: 32px;
+            display: flex;
+            min-height: 0;
+            width: 100vw;
+        }
+
+        .split-workspace {
+            flex: 1;
+            display: flex;
+            min-height: 0;
+            width: 100%;
+        }
+
+        .pane {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        .pane-left {
+            border-right: 1px solid #f0e6e6;
+            padding-right: 32px;
+        }
+
+        .pane-right {
+            padding-left: 32px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pane-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-shrink: 0;
+        }
+
+        .pane-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #e90505;
+        }
+
+        .pane-body {
+            font-size: 0.95rem;
+            color: #5c5252;
+            line-height: 1.7;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .part-label {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #e90505;
+            background-color: #fcf0f0;
+            border: 1px solid #f8d7d7;
+            padding: 4px 10px;
+            border-radius: 4px;
+            margin-bottom: 16px;
+        }
+
+        .cue-points {
+            margin-top: 16px;
+            padding-left: 20px;
+        }
+
+        .cue-points li {
+            margin-bottom: 8px;
+        }
+
+        .recording-panel {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            text-align: center;
+        }
+
+        .record-status {
+            font-size: 0.9rem;
+            color: #7a6e6e;
+            margin-bottom: 24px;
+        }
+
+        .record-btn {
+            width: 88px;
+            height: 88px;
+            border-radius: 50%;
+            background-color: #e90505;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.2s ease;
+        }
+
+        .record-btn:hover {
+            opacity: 0.9;
+        }
+
+        .record-btn .icon {
+            width: 24px;
+            height: 24px;
+            background-color: #ffffff;
+            border-radius: 4px;
+        }
+
+        .record-time {
+            margin-top: 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2d2626;
+        }
+
+        .controls-footer {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 16px;
+            flex-shrink: 0;
+        }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 120px;
+            height: 40px;
+            background-color: #e90505;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+        }
+
+        .action-btn:hover {
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            html, body { overflow: auto; }
+            .container { padding: 16px; }
+            .split-workspace { flex-direction: column; }
+            .pane-left {
+                border-right: none;
+                border-bottom: 1px solid #f0e6e6;
+                padding-right: 0;
+                padding-bottom: 24px;
+                margin-bottom: 24px;
+            }
+            .pane-right { padding-left: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-brand"><span>UPSEAS CONSULTANCY</span></div>
+        <div class="user-profile">
+            <div class="timer">
+                <span id="timeDisplay">02:00</span>
+            </div>
+            <span><b>user profile</b></span>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="split-workspace">
+            <div class="pane pane-left">
+                <div class="pane-header">
+                    <h2 class="pane-title">CUE CARD</h2>
+                </div>
+                <div class="pane-body">
+                    <span class="part-label">Part 2</span>
+                    <p><strong>Describe a skill you learned that has been useful in your life.</strong></p>
+                    <p style="margin-top: 12px;">You should say:</p>
+                    <ul class="cue-points">
+                        <li>what the skill is</li>
+                        <li>how you learned it</li>
+                        <li>how long you have had this skill</li>
+                        <li>and explain why it has been useful to you</li>
+                    </ul>
+                    <p style="margin-top: 16px;">You have one minute to prepare. You should then speak for one to two minutes.</p>
+                </div>
+            </div>
+
+            <div class="pane pane-right">
+                <div class="pane-header">
+                    <h2 class="pane-title">RECORDING</h2>
+                </div>
+                <div class="recording-panel">
+                    <p class="record-status" id="recordStatus">Ready to record</p>
+                    <button type="button" class="record-btn" id="recordBtn">
+                        <span class="icon"></span>
+                    </button>
+                    <div class="record-time" id="recordTime">00:00</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="controls-footer" style="padding: 0 32px 24px;">
+        <button type="button" class="action-btn" id="submitBtn">SUBMIT</button>
+    </div>
+
+    <script>
+        const recordBtn = document.getElementById('recordBtn');
+        const recordStatus = document.getElementById('recordStatus');
+        const recordTime = document.getElementById('recordTime');
+        let isRecording = false;
+        let seconds = 0;
+        let intervalId = null;
+
+        recordBtn.addEventListener('click', () => {
+            isRecording = !isRecording;
+            if (isRecording) {
+                recordStatus.textContent = 'Recording...';
+                intervalId = setInterval(() => {
+                    seconds++;
+                    const min = Math.floor(seconds / 60);
+                    const sec = seconds % 60;
+                    recordTime.textContent = `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+                }, 1000);
+            } else {
+                recordStatus.textContent = 'Recording stopped';
+                clearInterval(intervalId);
+            }
+        });
+
+        // Preparation timer
+        let totalSeconds = 60;
+        const display = document.getElementById('timeDisplay');
+        const prepTimer = setInterval(() => {
+            const min = Math.floor(totalSeconds / 60);
+            const sec = totalSeconds % 60;
+            display.textContent = `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+            if (totalSeconds > 0) {
+                totalSeconds--;
+            } else {
+                clearInterval(prepTimer);
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

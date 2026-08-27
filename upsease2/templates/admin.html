@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Dashboard</title>
+<style>
+    :root {
+        --bc-red: #e90505;
+        --bc-red-dark: #c00404;
+        --bc-dark: #1f1414;
+        --bc-light: #faf7f7;
+        --bc-border: #f0e6e6;
+        --bc-muted: #7a6e6e;
+    }
+    * { box-sizing: border-box; }
+    body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background: var(--bc-light);
+        color: var(--bc-dark);
+    }
+    .topbar {
+        background: #ffffff;
+        border-bottom: 1px solid var(--bc-border);
+        padding: 16px 32px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .topbar h1 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--bc-red);
+        margin: 0;
+    }
+    .topbar a {
+        color: var(--bc-red);
+        text-decoration: none;
+        border: 1px solid var(--bc-red);
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 500;
+        transition: background-color 0.15s ease, color 0.15s ease;
+    }
+    .topbar a:hover {
+        background: var(--bc-red);
+        color: #ffffff;
+    }
+    .layout {
+        display: flex;
+        min-height: calc(100vh - 62px);
+    }
+    .sidebar {
+        width: 220px;
+        background: #ffffff;
+        border-right: 1px solid var(--bc-border);
+        padding: 24px 0;
+    }
+    .sidebar-label {
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: var(--bc-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        padding: 0 24px;
+        margin-bottom: 10px;
+    }
+    .sidebar button {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        text-align: left;
+        padding: 11px 24px;
+        background: none;
+        border: none;
+        border-left: 3px solid transparent;
+        font-size: 0.9rem;
+        font-family: inherit;
+        color: var(--bc-dark);
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+    }
+    .sidebar button:hover {
+        background: var(--bc-light);
+    }
+    .sidebar button.active {
+        border-left: 3px solid var(--bc-red);
+        background: var(--bc-light);
+        color: var(--bc-red);
+        font-weight: 600;
+    }
+    .content {
+        flex: 1;
+        padding: 40px 48px;
+    }
+    .panel {
+        display: none;
+    }
+    .panel.active {
+        display: block;
+    }
+    .panel-header {
+        margin-bottom: 24px;
+    }
+    .panel h2 {
+        color: var(--bc-dark);
+        font-size: 1.4rem;
+        font-weight: 600;
+        margin-bottom: 4px;
+    }
+    .panel-subtitle {
+        font-size: 0.85rem;
+        color: var(--bc-muted);
+    }
+    .flash {
+        background: #fcf0f0;
+        color: var(--bc-red-dark);
+        border: 1px solid #f8d7d7;
+        padding: 10px 14px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        font-size: 13px;
+    }
+
+    /* Students table */
+    .actions { margin-bottom: 20px; }
+    .actions a {
+        background: var(--bc-red);
+        color: #ffffff;
+        text-decoration: none;
+        padding: 10px 18px;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        transition: opacity 0.15s ease;
+    }
+    .actions a:hover { opacity: 0.9; }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #ffffff;
+        border: 1px solid var(--bc-border);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    th, td {
+        padding: 13px 16px;
+        text-align: left;
+        border-bottom: 1px solid var(--bc-border);
+        font-size: 0.85rem;
+    }
+    th {
+        background: var(--bc-light);
+        color: var(--bc-muted);
+        font-weight: 600;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--bc-light); }
+    .search-box {
+        width: 100%;
+        max-width: 320px;
+        padding: 10px 14px;
+        margin-bottom: 18px;
+        border: 1px solid var(--bc-border);
+        border-radius: 6px;
+        font-size: 0.85rem;
+        font-family: inherit;
+        display: block;
+        outline: none;
+        transition: border-color 0.15s ease;
+    }
+    .search-box:focus {
+        border-color: var(--bc-red);
+    }
+    .assign-btn {
+        display: inline-block;
+        background: #ffffff;
+        color: var(--bc-red);
+        border: 1px solid var(--bc-red);
+        border-radius: 6px;
+        padding: 6px 14px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background-color 0.15s ease, color 0.15s ease;
+    }
+    .assign-btn:hover {
+        background: var(--bc-red);
+        color: #ffffff;
+    }
+
+    /* Upload panels */
+    .upload-card {
+        background: #ffffff;
+        border: 1px solid var(--bc-border);
+        border-radius: 8px;
+        padding: 28px;
+        max-width: 460px;
+    }
+    .upload-card label {
+        display: block;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--bc-dark);
+        margin-bottom: 6px;
+    }
+    .upload-card input[type="text"],
+    .upload-card textarea {
+        width: 100%;
+        padding: 10px 12px;
+        margin-bottom: 18px;
+        border: 1px solid var(--bc-border);
+        border-radius: 6px;
+        font-size: 0.85rem;
+        font-family: inherit;
+        outline: none;
+        transition: border-color 0.15s ease;
+    }
+    .upload-card input[type="text"]:focus,
+    .upload-card textarea:focus {
+        border-color: var(--bc-red);
+    }
+    .upload-card textarea {
+        resize: vertical;
+        min-height: 140px;
+    }
+    .file-drop {
+        border: 1.5px dashed var(--bc-red);
+        border-radius: 6px;
+        padding: 22px;
+        text-align: center;
+        color: var(--bc-red-dark);
+        font-size: 0.8rem;
+        margin-bottom: 18px;
+        background: var(--bc-light);
+    }
+    .file-drop input[type="file"] {
+        margin-top: 10px;
+        font-size: 0.8rem;
+        font-family: inherit;
+    }
+    .upload-card button {
+        width: 100%;
+        padding: 12px;
+        background: var(--bc-red);
+        color: #ffffff;
+        border: none;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: opacity 0.15s ease;
+    }
+    .upload-card button:hover { opacity: 0.9; }
+</style>
+</head>
+<body>
+    <div class="topbar">
+        <h1>Admin Dashboard</h1>
+        <a href="{{ url_for('admin_logout') }}">Logout</a>
+    </div>
+
+    <div class="layout">
+        <div class="sidebar">
+            <div class="sidebar-label">Menu</div>
+            <button class="tab-btn active" data-tab="students">Students</button>
+            <button class="tab-btn" data-tab="pdf">Upload PDF</button>
+            <button class="tab-btn" data-tab="mp3">Upload MP3</button>
+            <button class="tab-btn" data-tab="mp4">Upload MP4</button>
+            <button class="tab-btn" data-tab="text">Upload Text</button>
+        </div>
+
+        <div class="content">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="flash">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <!-- Students panel -->
+            <div class="panel active" id="panel-students">
+                <div class="panel-header">
+                    <h2>Students</h2>
+                    <div class="panel-subtitle">{{ students|length }} registered</div>
+                </div>
+                <div class="actions">
+                    <a href="{{ url_for('admin_create_student') }}">+ Create Student</a>
+                </div>
+                <input type="text" id="student-search" class="search-box" placeholder="Search by name or email...">
+                <table id="students-table">
+                    <tr>
+                        <th>ID</th>
+                        <th>First Name</th>
+                        <th>Middle Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Months</th>
+                        <th>Registration Date</th>
+                        <th>Actions</th>
+                    </tr>
+                    {% for student in students %}
+                    <tr>
+                        <td>{{ student.id }}</td>
+                        <td>{{ student.firstname }}</td>
+                        <td>{{ student.middlename }}</td>
+                        <td>{{ student.lastname }}</td>
+                        <td>{{ student.email }}</td>
+                        <td>{{ student.months }}</td>
+                        <td>{{ student.registration_date }}</td>
+                        <td><a class="assign-btn" href="{{ url_for('assign_task', student_id=student.id) }}">Assign Task</a></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                {% if not students %}
+                <p style="margin-top: 16px; font-size: 0.85rem; color: var(--bc-muted);">No students yet.</p>
+                {% endif %}
+            </div>
+
+            <!-- Upload PDF panel -->
+            <div class="panel" id="panel-pdf">
+                <div class="panel-header">
+                    <h2>Upload PDF</h2>
+                    <div class="panel-subtitle">Add a reading document for students</div>
+                </div>
+                <div class="upload-card">
+                    <form action="{{ url_for('admin_upload_pdf') }}" method="POST" enctype="multipart/form-data">
+                        <label for="pdf-title">Title</label>
+                        <input type="text" id="pdf-title" name="title" placeholder="Document title">
+
+                        <div class="file-drop">
+                            Choose a PDF file
+                            <input type="file" name="pdf_file" accept="application/pdf">
+                        </div>
+
+                        <button type="submit">Upload PDF</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Upload MP3 panel -->
+            <div class="panel" id="panel-mp3">
+                <div class="panel-header">
+                    <h2>Upload MP3</h2>
+                    <div class="panel-subtitle">Add a listening recording for students</div>
+                </div>
+                <div class="upload-card">
+                    <form action="{{ url_for('admin_upload_mp3') }}" method="POST" enctype="multipart/form-data">
+                        <label for="mp3-title">Title</label>
+                        <input type="text" id="mp3-title" name="title" placeholder="Audio title">
+
+                        <div class="file-drop">
+                            Choose an MP3 file
+                            <input type="file" name="mp3_file" accept="audio/mpeg">
+                        </div>
+
+                        <button type="submit">Upload MP3</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Upload MP4 panel -->
+            <div class="panel" id="panel-mp4">
+                <div class="panel-header">
+                    <h2>Upload MP4</h2>
+                    <div class="panel-subtitle">Add a video resource for students</div>
+                </div>
+                <div class="upload-card">
+                    <form action="{{ url_for('admin_upload_mp4') }}" method="POST" enctype="multipart/form-data">
+                        <label for="mp4-title">Title</label>
+                        <input type="text" id="mp4-title" name="title" placeholder="Video title">
+
+                        <div class="file-drop">
+                            Choose an MP4 file
+                            <input type="file" name="mp4_file" accept="video/mp4">
+                        </div>
+
+                        <button type="submit">Upload MP4</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Upload Text panel -->
+            <div class="panel" id="panel-text">
+                <div class="panel-header">
+                    <h2>Upload Text</h2>
+                    <div class="panel-subtitle">Add plain text notes for students</div>
+                </div>
+                <div class="upload-card">
+                    <form action="#" method="POST">
+                        <label for="text-title">Title</label>
+                        <input type="text" id="text-title" name="title" placeholder="Text title">
+
+                        <label for="text-body">Content</label>
+                        <textarea id="text-body" name="body" placeholder="Paste or type plain text content here"></textarea>
+
+                        <button type="submit">Upload Text</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const panels = document.querySelectorAll('.panel');
+
+    tabButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            tabButtons.forEach(b => b.classList.remove('active'));
+            panels.forEach(p => p.classList.remove('active'));
+
+            btn.classList.add('active');
+            document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+        });
+    });
+
+    const searchInput = document.getElementById('student-search');
+    const studentRows = document.querySelectorAll('#students-table tr:not(:first-child)');
+
+    searchInput.addEventListener('input', () => {
+        const query = searchInput.value.trim().toLowerCase();
+        studentRows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            row.style.display = text.includes(query) ? '' : 'none';
+        });
+    });
+</script>
+</body>
+</html>

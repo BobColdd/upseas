@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPSEAS CONSULTANCY</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f6f8;
+            color: #0a0808;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 20px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.03), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+            border: 1px solid #e2e8f0;
+        }
+
+        .brand-logo {
+    display: block;
+    width: 48px; /* Adjust size as needed */
+    height: auto;
+    margin-bottom: 16px;
+}
+
+        .header {
+            margin-bottom: 32px;
+            text-align: left;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: #f11708;
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+            text-align: center;
+        }
+
+        .header p {
+            font-size: 0.9rem;
+            color: #09f01c;
+            line-height: 1.4;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #010914;
+            margin-bottom: 6px;
+        }
+
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 14px;
+            font-size: 0.95rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            background-color: #f8fafc;
+            color: #0f172a;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            background-color: #ffffff;
+            border-color: #94a3b8;
+            box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.15);
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            font-size: 0.85rem;
+        }
+
+        .forgot-pass {
+            color: #010408;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .forgot-pass:hover {
+            color: #010307;
+            text-decoration: underline;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #e70606;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #334155;
+        }
+
+        .submit-btn:active {
+            transform: scale(0.99);
+        }
+/* Ensure wrapper fills the parent width */
+.password-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+/* Target BOTH text and password inputs under password-wrapper */
+.password-wrapper input {
+    width: 100%;
+    padding: 12px 44px 12px 14px; /* Space on right for icon */
+    font-size: 0.95rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background-color: #f8fafc;
+    color: #0f172a;
+    outline: none;
+    box-sizing: border-box;
+}
+
+/* Pin button vertically center inside the wrapper */
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flash {
+    background: #ffe1e1;
+    color: #b4001f;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+    </style>
+</head>
+<body>
+
+    <main class="login-card">
+        <div class="header">
+        
+            <h1>UPSEAS CONSULTANTS</h1>
+           
+        </div>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="flash">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('student_login') }}" method="POST">
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" id="email" name="email" required placeholder="" autocomplete="email">
+            </div>
+
+            <div class="form-group">
+    <label for="password">Password</label>
+    <div class="password-wrapper">
+        <input type="password" id="password" name="password" required placeholder="••••••••" autocomplete="current-password">
+        <button type="button" class="toggle-password" id="togglePassword" aria-label="Toggle password visibility">
+            <!-- Eye SVG Icon -->
+            <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+        </button>
+    </div>
+</div>
+
+            <div class="form-actions">
+                <a href="{{ url_for('forgot_password') }}" class="forgot-pass">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="submit-btn">login</button>
+        </form>
+    </main>
+<script>
+    const toggleBtn = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('password');
+    const eyeIcon = document.getElementById('eyeIcon');
+
+    // SVG paths for Open Eye and Closed Eye
+    const eyeOpenPath = `<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle>`;
+    const eyeClosedPath = `<path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path><path d="M6.61 6.61A13.52 13.52 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path><line x1="2" x2="22" y1="2" y2="22"></line>`;
+
+    toggleBtn.addEventListener('click', () => {
+        const isPassword = passwordInput.getAttribute('type') === 'password';
+        
+        // Toggle input type
+        passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+        
+        // Toggle icon visual
+        eyeIcon.innerHTML = isPassword ? eyeClosedPath : eyeOpenPath;
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPSEAS / Home</title>
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: #faf7f7;
+    color: #2d2626;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #ffffff;
+    border-bottom: 1px solid #f0e6e6;
+    padding: 16px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    color: #e90505;
+    font-size: 1.1rem;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.tasks-shortcut {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #fcf0f0;
+    color: #e90505;
+    border: 1px solid #f8d7d7;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.tasks-shortcut:hover {
+    background-color: #f8d7d7;
+}
+
+.user-profile {
+    font-size: 0.9rem;
+    color: #7a6e6e;
+}
+
+/* Container */
+.container {
+    max-width: 700px;
+    margin: 48px auto;
+    padding: 0 24px;
+    width: 100%;
+    flex: 1;
+}
+
+.notes-section h1 {
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: #1f1414;
+    margin-bottom: 20px;
+}
+
+.notes-body {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: #5c5252;
+}
+
+.notes-body p {
+    margin-bottom: 12px;
+}
+
+.notes-body p:last-child {
+    margin-bottom: 0;
+}
+
+/* Decision section */
+.decision-section {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.decision-section h2 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #1f1414;
+    margin-bottom: 20px;
+}
+
+.decision-options {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.decision-btn {
+    display: inline-block;
+    background-color: #e90505;
+    color: #ffffff;
+    padding: 14px 32px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: opacity 0.2s ease;
+}
+
+.decision-btn:hover {
+    opacity: 0.9;
+}
+
+.decision-btn.secondary {
+    background-color: #ffffff;
+    color: #e90505;
+    border: 1px solid #e90505;
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-brand">
+        
+        <span>UPSEAS CONSULTANCY</span>
+    </div>
+    <div class="nav-right">
+        <a href="#" class="tasks-shortcut">📋 Tasks</a>
+        <div class="user-profile"><b>user profile</b></div>
+    </div>
+</nav>
+
+<main class="container">
+    <section class="notes-section">
+        <h1>Welcome</h1>
+        <div class="notes-body">
+            <p>Before you begin, please read the following notes carefully.</p>
+            <p>This platform will guide you through your preparation material. Depending on your course, the content and structure of your tests will differ slightly.</p>
+            <p>Once you have read through this page, select whether you are a General or Academic student below to continue.</p>
+        </div>
+    </section>
+
+    <section class="decision-section">
+        <h2>Are you a General or Academic student?</h2>
+        <div class="decision-options">
+            <a href="{{ url_for('home_page') }}" class="decision-btn">General</a>
+            <a href="{{ url_for('tasks_page') }}" class="decision-btn secondary">Academic</a>
+        </div>
+    </section>
+</main>
+
+</body>
+</html>

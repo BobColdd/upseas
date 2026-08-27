@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPSEAS / Reading Notes</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #faf7f7;
+            color: #2d2626;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            height: 60px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #f0e6e6;
+            padding: 0 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .nav-brand {
+            font-weight: 600;
+            color: #e90505;
+            font-size: 1.1rem;
+        }
+
+        .user-profile {
+            font-size: 0.9rem;
+            color: #7a6e6e;
+        }
+
+        .layout {
+            flex: 1;
+            display: flex;
+        }
+
+        .sidebar {
+            width: 260px;
+            border-right: 1px solid #f0e6e6;
+            padding: 24px 0;
+            flex-shrink: 0;
+        }
+
+        .sidebar-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #7a6e6e;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            padding: 0 24px;
+            margin-bottom: 12px;
+        }
+
+        .note-link {
+            display: block;
+            padding: 10px 24px;
+            font-size: 0.9rem;
+            color: #5c5252;
+            text-decoration: none;
+            border-left: 3px solid transparent;
+        }
+
+        .note-link:hover {
+            background-color: #fcf0f0;
+        }
+
+        .note-link.active {
+            border-left-color: #e90505;
+            color: #e90505;
+            font-weight: 600;
+            background-color: #fcf0f0;
+        }
+
+        .content {
+            flex: 1;
+            padding: 40px 48px;
+            max-width: 760px;
+        }
+
+        .note-header {
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #f0e6e6;
+        }
+
+        .note-header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1f1414;
+        }
+
+        .note-meta {
+            margin-top: 6px;
+            font-size: 0.85rem;
+            color: #7a6e6e;
+        }
+
+        .note-body {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: #3a3232;
+        }
+
+        .note-body h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1f1414;
+            margin-top: 24px;
+            margin-bottom: 10px;
+        }
+
+        .note-body p {
+            margin-bottom: 14px;
+        }
+
+        .note-body ul {
+            margin-bottom: 14px;
+            padding-left: 22px;
+        }
+
+        .note-body li {
+            margin-bottom: 6px;
+        }
+
+        @media (max-width: 768px) {
+            .layout { flex-direction: column; }
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #f0e6e6;
+            }
+            .content { padding: 24px; max-width: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-brand"><span>UPSEAS CONSULTANCY</span></div>
+        <div class="user-profile"><b>{{ firstname }}</b></div>
+    </nav>
+
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="sidebar-title">Reading Notes</div>
+            <a href="#" class="note-link active">Question Types Overview</a>
+            <a href="#" class="note-link">Skimming and Scanning</a>
+            <a href="#" class="note-link">True / False / Not Given</a>
+            <a href="#" class="note-link">Matching Headings</a>
+            <a href="#" class="note-link">Time Management</a>
+        </aside>
+
+        <main class="content">
+            <div class="note-header">
+                <h1>Question Types Overview</h1>
+                <div class="note-meta">Last updated 20 August 2026</div>
+            </div>
+            <div class="note-body">
+                <p>The reading section uses a range of question types across three passages. Knowing what each type expects of you before you start makes a noticeable difference to your speed and accuracy.</p>
+
+                <h2>Common question types</h2>
+                <ul>
+                    <li>Multiple choice &mdash; select one or more correct options</li>
+                    <li>True / False / Not Given &mdash; judge a statement against the passage</li>
+                    <li>Matching headings &mdash; pair paragraphs with the correct summary heading</li>
+                    <li>Sentence completion &mdash; fill gaps using words taken from the passage</li>
+                    <li>Short answer &mdash; respond within a strict word limit</li>
+                </ul>
+
+                <h2>General approach</h2>
+                <p>Read the questions before the passage so you know what to look for. Underline keywords in the question, then scan the passage for matching or related terms rather than reading every line in full.</p>
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>

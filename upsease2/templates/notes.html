@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPSEAS / Notes</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #faf7f7;
+            color: #2d2626;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            height: 60px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #f0e6e6;
+            padding: 0 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .nav-brand {
+            font-weight: 600;
+            color: #e90505;
+            font-size: 1.1rem;
+        }
+
+        .user-profile {
+            font-size: 0.9rem;
+            color: #7a6e6e;
+        }
+
+        .layout {
+            flex: 1;
+            display: flex;
+        }
+
+        .sidebar {
+            width: 260px;
+            border-right: 1px solid #f0e6e6;
+            padding: 24px 0;
+            flex-shrink: 0;
+        }
+
+        .sidebar-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #7a6e6e;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            padding: 0 24px;
+            margin-bottom: 12px;
+        }
+
+        .note-link {
+            display: block;
+            padding: 10px 24px;
+            font-size: 0.9rem;
+            color: #5c5252;
+            text-decoration: none;
+            border-left: 3px solid transparent;
+        }
+
+        .note-link:hover {
+            background-color: #fcf0f0;
+        }
+
+        .note-link.active {
+            border-left-color: #e90505;
+            color: #e90505;
+            font-weight: 600;
+            background-color: #fcf0f0;
+        }
+
+        .content {
+            flex: 1;
+            padding: 40px 48px;
+            max-width: 760px;
+        }
+
+        .note-header {
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #f0e6e6;
+        }
+
+        .note-header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1f1414;
+        }
+
+        .note-meta {
+            margin-top: 6px;
+            font-size: 0.85rem;
+            color: #7a6e6e;
+        }
+
+        .note-body {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: #3a3232;
+        }
+
+        .note-body h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1f1414;
+            margin-top: 24px;
+            margin-bottom: 10px;
+        }
+
+        .note-body p {
+            margin-bottom: 14px;
+        }
+
+        .note-body ul {
+            margin-bottom: 14px;
+            padding-left: 22px;
+        }
+
+        .note-body li {
+            margin-bottom: 6px;
+        }
+
+        @media (max-width: 768px) {
+            .layout { flex-direction: column; }
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #f0e6e6;
+            }
+            .content { padding: 24px; max-width: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-brand"><span>UPSEAS CONSULTANCY</span></div>
+        <div class="user-profile"><b>user profile</b></div>
+    </nav>
+
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="sidebar-title">Notes</div>
+            <a href="#" class="note-link active">Introduction to the Test Format</a>
+            <a href="#" class="note-link">Reading Strategies</a>
+            <a href="#" class="note-link">Writing Task 2 Structure</a>
+            <a href="#" class="note-link">Common Listening Traps</a>
+            <a href="#" class="note-link">Speaking Fluency Tips</a>
+        </aside>
+
+        <main class="content">
+            <div class="note-header">
+                <h1>Introduction to the Test Format</h1>
+                <div class="note-meta">Last updated 20 August 2026</div>
+            </div>
+            <div class="note-body">
+                <p>This note gives an overview of the test structure and what to expect in each section.</p>
+
+                <h2>Sections</h2>
+                <ul>
+                    <li>Listening &mdash; four recorded parts, increasing in difficulty</li>
+                    <li>Reading &mdash; three passages with a mix of question types</li>
+                    <li>Writing &mdash; two tasks, a short report/letter and a longer essay</li>
+                    <li>Speaking &mdash; a short interview, a cue card task, and a discussion</li>
+                </ul>
+
+                <h2>General advice</h2>
+                <p>Manage your time carefully in each section. Read instructions fully before attempting a question, and review your answers if time allows.</p>
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>

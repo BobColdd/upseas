@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPSEAS/dashboard</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #faf7f7;
+            color: #2d2626;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: #ffffff;
+            border-bottom: 1px solid #f0e6e6;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            color: #e90505;
+            font-size: 1.1rem;
+        }
+
+        .user-profile {
+            font-size: 0.9rem;
+            color: #7a6e6e;
+        }
+
+        /* Container */
+        .container {
+            max-width: 600px;
+            margin: 48px auto;
+            padding: 0 24px;
+            width: 100%;
+        }
+
+        /* Welcome Message */
+        .welcome-section {
+            margin-bottom: 32px;
+        }
+
+        .welcome-section h1 {
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: #1f1414;
+        }
+
+        /* Vertical List Layout */
+        .skills-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .skill-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0e6e6;
+        }
+
+        .skill-row:last-child {
+            border-bottom: none;
+        }
+
+        .skill-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #1f1414;
+        }
+
+        .skill-btn {
+            display: inline-block;
+            background-color: #e90505;
+            color: #ffffff;
+            width: 110px;
+    height: 40px;
+            padding: 8px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: opacity 0.2s ease;
+        }
+
+        .skill-btn:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+   <nav class="navbar">
+    <div class="nav-brand">
+        <img src="logo.png" alt="Upseas Consultancy Logo" class="nav-logo">
+        <span>UPSEAS CONSULTANCY</span>
+    </div>
+    <div class="user-profile">
+        <span><b>user profile</b></span>
+    </div>
+</nav>
+
+
+    <!-- Main Workspace -->
+    <main class="container">
+        
+        <!-- Welcome Section -->
+        <section class="welcome-section">
+            <h1>Welcome back</h1>
+        </section>
+
+        <!-- Vertical Skills List -->
+        <div class="skills-list">
+            <div class="skill-row">
+                <span class="skill-title">Listening</span>  
+                <a href="#" class="skill-btn">Listening</a>
+            </div>
+
+            <div class="skill-row">
+                <span class="skill-title">Reading</span>
+                <a href="#" class="skill-btn">Reading</a>
+            </div>
+
+            <div class="skill-row">
+                <span class="skill-title">Writing</span>
+                <a href="#" class="skill-btn">Writing</a>
+            </div>
+
+            <div class="skill-row">
+                <span class="skill-title">Speaking</span>
+                <a href="#" class="skill-btn">Speaking</a>
+            </div>
+        </div>
+
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPSEAS / Listening Module</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #faf7f7;
+            color: #2d2626;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            height: 60px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #f0e6e6;
+            padding: 0 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .nav-brand {
+            font-weight: 600;
+            color: #e90505;
+            font-size: 1.1rem;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 0.9rem;
+            color: #7a6e6e;
+        }
+
+        .timer {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background-color: #fcf0f0;
+            color: #e90505;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1px solid #f8d7d7;
+        }
+
+        .container {
+            flex: 1;
+            padding: 32px;
+            display: flex;
+            min-height: 0;
+            width: 100vw;
+        }
+
+        .split-workspace {
+            flex: 1;
+            display: flex;
+            min-height: 0;
+            width: 100%;
+        }
+
+        .pane {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        .pane-left {
+            border-right: 1px solid #f0e6e6;
+            padding-right: 32px;
+            flex: 0.8;
+        }
+
+        .pane-right {
+            padding-left: 32px;
+        }
+
+        .pane-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-shrink: 0;
+        }
+
+        .pane-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #e90505;
+        }
+
+        .pane-body {
+            font-size: 0.95rem;
+            color: #5c5252;
+            line-height: 1.6;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .audio-panel {
+            background-color: #ffffff;
+            border: 1px solid #f0e6e6;
+            border-radius: 8px;
+            padding: 24px;
+        }
+
+        .audio-panel p {
+            margin-bottom: 16px;
+            font-size: 0.85rem;
+            color: #7a6e6e;
+        }
+
+        audio {
+            width: 100%;
+        }
+
+        .part-list {
+            margin-top: 24px;
+        }
+
+        .part-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #f0e6e6;
+            font-size: 0.9rem;
+            color: #5c5252;
+        }
+
+        .part-item:last-child {
+            border-bottom: none;
+        }
+
+        .question-group {
+            margin-bottom: 24px;
+            background: #ffffff;
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid #f0e6e6;
+        }
+
+        .question-title {
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #2d2626;
+            font-size: 0.85rem;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .option-label input[type="radio"] {
+            accent-color: #e90505;
+        }
+
+        .text-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #e2d8d8;
+            border-radius: 6px;
+            outline: none;
+            margin-top: 8px;
+        }
+
+        .text-input:focus {
+            border-color: #e90505;
+        }
+
+        .controls-footer {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 16px;
+            flex-shrink: 0;
+        }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 120px;
+            height: 40px;
+            background-color: #e90505;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+        }
+
+        .action-btn:hover {
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            html, body { overflow: auto; }
+            .container { padding: 16px; }
+            .split-workspace { flex-direction: column; }
+            .pane-left {
+                border-right: none;
+                border-bottom: 1px solid #f0e6e6;
+                padding-right: 0;
+                padding-bottom: 24px;
+                margin-bottom: 24px;
+            }
+            .pane-right { padding-left: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-brand"><span>UPSEAS CONSULTANCY</span></div>
+        <div class="user-profile">
+            <div class="timer">
+                <span id="timeDisplay">30:00</span>
+            </div>
+            <span><b>user profile</b></span>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="split-workspace">
+            <div class="pane pane-left">
+                <div class="pane-header">
+                    <h2 class="pane-title">LISTENING</h2>
+                </div>
+                <div class="pane-body">
+                    <div class="audio-panel">
+                        <p>Part 1 of 4. Play the recording once.</p>
+                        <audio controls>
+                            <source src="" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                    <div class="part-list">
+                        <div class="part-item">Part 1 &mdash; Everyday conversation</div>
+                        <div class="part-item">Part 2 &mdash; Monologue</div>
+                        <div class="part-item">Part 3 &mdash; Academic discussion</div>
+                        <div class="part-item">Part 4 &mdash; Academic lecture</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pane pane-right">
+                <div class="pane-header">
+                    <h2 class="pane-title">QUESTIONS</h2>
+                </div>
+                <div class="pane-body">
+                    <form id="listeningForm">
+                        <div class="question-group">
+                            <p class="question-title">1. What is the main purpose of the call?</p>
+                            <label class="option-label"><input type="radio" name="q1" value="A"> Option A</label>
+                            <label class="option-label"><input type="radio" name="q1" value="B"> Option B</label>
+                        </div>
+
+                        <div class="question-group">
+                            <p class="question-title">2. Complete the note (No more than two words):</p>
+                            <input type="text" class="text-input" placeholder="Type answer...">
+                        </div>
+                    </form>
+                </div>
+
+                <div class="controls-footer">
+                    <button type="submit" form="listeningForm" class="action-btn">SUBMIT</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Timer
+        let totalSeconds = 30 * 60;
+        const display = document.getElementById('timeDisplay');
+        setInterval(() => {
+            const min = Math.floor(totalSeconds / 60);
+            const sec = totalSeconds % 60;
+            display.textContent = `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+            if (totalSeconds > 0) totalSeconds--;
+        }, 1000);
+        const audio = document.getElementById('listeningAudio');
+const playBtn = document.getElementById('playBtn');
+
+playBtn.addEventListener('click', () => {
+    audio.play();
+    playBtn.disabled = true;
+    playBtn.textContent = 'Playing...';
+});
+
+audio.addEventListener('pause', () => {
+    if (!audio.ended) {
+        audio.play();
+    }
+});
+    </script>
+</body>
+</html>

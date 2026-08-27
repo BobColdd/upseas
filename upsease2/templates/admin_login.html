@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login</title>
+<style>
+    :root {
+        --bc-red: #e90505;
+        --bc-red-dark: #c00404;
+        --bc-dark: #1f1414;
+        --bc-light: #faf7f7;
+        --bc-border: #f0e6e6;
+        --bc-muted: #7a6e6e;
+    }
+    * { box-sizing: border-box; }
+    body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background: var(--bc-light);
+        color: var(--bc-dark);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+    }
+    .login-card {
+        background: #ffffff;
+        border-radius: 12px;
+        border: 1px solid var(--bc-border);
+        padding: 36px;
+        width: 100%;
+        max-width: 380px;
+    }
+    .header {
+        margin-bottom: 28px;
+        text-align: center;
+    }
+    .header h1 {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--bc-red);
+        margin-bottom: 6px;
+    }
+    .header p {
+        font-size: 0.85rem;
+        color: var(--bc-muted);
+    }
+    .form-group {
+        margin-bottom: 18px;
+    }
+    label {
+        display: block;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--bc-dark);
+        margin-bottom: 6px;
+    }
+    input[type="text"],
+    input[type="password"] {
+        width: 100%;
+        padding: 11px 14px;
+        font-size: 0.9rem;
+        font-family: inherit;
+        border: 1px solid var(--bc-border);
+        border-radius: 8px;
+        background-color: var(--bc-light);
+        color: var(--bc-dark);
+        outline: none;
+        transition: border-color 0.15s ease, background-color 0.15s ease;
+    }
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+        background-color: #ffffff;
+        border-color: var(--bc-red);
+    }
+    .submit-btn {
+        width: 100%;
+        padding: 12px;
+        background-color: var(--bc-red);
+        color: #ffffff;
+        border: none;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 6px;
+        transition: opacity 0.15s ease;
+    }
+    .submit-btn:hover {
+        opacity: 0.9;
+    }
+    .flash {
+        background: #fcf0f0;
+        color: var(--bc-red-dark);
+        border: 1px solid #f8d7d7;
+        padding: 10px 14px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-size: 0.8rem;
+        text-align: center;
+    }
+</style>
+</head>
+<body>
+    <main class="login-card">
+        <div class="header">
+            <h1>Admin Login</h1>
+            <p>UPSEAS CONSULTANCY</p>
+        </div>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="flash">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('admin_login') }}">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required autocomplete="username">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required autocomplete="current-password">
+            </div>
+
+            <button type="submit" class="submit-btn">Log In</button>
+        </form>
+    </main>
+</body>
+</html>

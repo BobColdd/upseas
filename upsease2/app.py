@@ -371,7 +371,6 @@ def admin_upload_pdf():
 
     return redirect(url_for("admin_dashboard"))
 
-
 @app.route("/admin/upload/mp3", methods=["POST"])
 @admin_login_required
 def admin_upload_mp3():
@@ -386,6 +385,21 @@ def admin_upload_mp3():
 
     return redirect(url_for("admin_dashboard"))
 
+@app.route("/uploads/<path:filepath>")
+def uploaded_file(filepath):
+    if "student_id" not in session and not session.get("is_admin"):
+        return redirect(url_for("student_login"))
+    return send_from_directory(UPLOAD_FOLDER, filepath)
+
+@app.route("/speaking/submit", methods=["POST"])
+@student_login_required
+def speaking_submit():
+    file = request.files.get("audio")
+    if file and file.filename:
+        save_speaking_submission(file, session["student_id"])
+        return {"status": "ok"}
+    return {"status": "error", "message": "No audio received"}, 400
+    
 @app.route("/assign-task/<int:student_id>", methods=["GET", "POST"])
 @admin_login_required
 def assign_task(student_id):

@@ -352,7 +352,7 @@ def admin_dashboard():
 
     cur.close()
     conn.close()
-    return render_template("admin_dashboard.html", students=students, speaking_submissions=speaking_submissions)
+    return render_template("admin.html", students=students, speaking_submissions=speaking_submissions)
 
 @app.route("/admin/create", methods=["GET", "POST"])
 @admin_login_required

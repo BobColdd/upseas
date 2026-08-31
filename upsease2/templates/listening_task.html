@@ -249,19 +249,18 @@
                     <h2 class="pane-title">LISTENING</h2>
                 </div>
                 <div class="pane-body">
-                    <div class="audio-panel">
-                        <p>Part 1 of 4. Play the recording once.</p>
+                    {% for note in mp3_notes %}
+                    <div class="audio-panel" style="margin-bottom: 16px;">
+                        <p>{{ note.title }}</p>
                         <audio controls>
-                            <source src="" type="audio/mpeg">
+                            <source src="{{ url_for('uploaded_file', filepath=note.file_path) }}" type="audio/mpeg">
                             Your browser does not support the audio element.
                         </audio>
                     </div>
-                    <div class="part-list">
-                        <div class="part-item">Part 1 &mdash; Everyday conversation</div>
-                        <div class="part-item">Part 2 &mdash; Monologue</div>
-                        <div class="part-item">Part 3 &mdash; Academic discussion</div>
-                        <div class="part-item">Part 4 &mdash; Academic lecture</div>
-                    </div>
+                    {% endfor %}
+                    {% if not mp3_notes %}
+                    <p style="color: #7a6e6e; font-size: 0.9rem;">No listening material has been uploaded yet.</p>
+                    {% endif %}
                 </div>
             </div>
 
@@ -301,20 +300,6 @@
             display.textContent = `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
             if (totalSeconds > 0) totalSeconds--;
         }, 1000);
-        const audio = document.getElementById('listeningAudio');
-const playBtn = document.getElementById('playBtn');
-
-playBtn.addEventListener('click', () => {
-    audio.play();
-    playBtn.disabled = true;
-    playBtn.textContent = 'Playing...';
-});
-
-audio.addEventListener('pause', () => {
-    if (!audio.ended) {
-        audio.play();
-    }
-});
     </script>
 </body>
 </html>

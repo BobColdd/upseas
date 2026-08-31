@@ -210,16 +210,23 @@ def writing_task():
 def speaking_task():
     return render_template("speaking_task.html", firstname=session.get("student_firstname"))
 
-
-@app.route("/listening_task")
+# updated
+@app.route("/listening")
 @student_login_required
 def listening_task():
-    return render_template("listening_task.html", firstname=session.get("student_firstname"))
-
-
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT id, title, file_path FROM lecture_notes WHERE file_path LIKE 'mp3/%%' ORDER BY id DESC")
+    mp3_notes = cur.fetchall()
+    cur.close()
+    conn.close()
+    return render_template("listening_task.html", mp3_notes=mp3_notes)
+    
+# updated
 @app.route("/uploads/<path:filepath>")
-@student_login_required
 def uploaded_file(filepath):
+    if "student_id" not in session and not session.get("is_admin"):
+        return redirect(url_for("student_login"))
     return send_from_directory(UPLOAD_FOLDER, filepath)
 
 '''
@@ -310,7 +317,7 @@ def admin_login():
 
     return render_template("admin_login.html")
 
-
+'''
 @app.route("/admin/dashboard")
 @admin_login_required
 def admin_dashboard():
@@ -321,7 +328,31 @@ def admin_dashboard():
     cur.close()
     conn.close()
     return render_template("admin.html", students=students)
+'''
 
+# updated
+@app.route("/admin/dashboard")
+@admin_login_required
+def admin_dashboard():
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT id, firstname, middlename, lastname, email, months, registration_date FROM students ORDER BY id")
+    students = cur.fetchall()
+
+    cur.execute(
+        """
+        SELECT speaking_submissions.id, speaking_submissions.file_path, speaking_submissions.submitted_at,
+               students.firstname, students.lastname, students.email
+        FROM speaking_submissions
+        JOIN students ON students.id = speaking_submissions.student_id
+        ORDER BY speaking_submissions.submitted_at DESC
+        """
+    )
+    speaking_submissions = cur.fetchall()
+
+    cur.close()
+    conn.close()
+    return render_template("admin_dashboard.html", students=students, speaking_submissions=speaking_submissions)
 
 @app.route("/admin/create", methods=["GET", "POST"])
 @admin_login_required
@@ -390,7 +421,7 @@ def uploaded_file(filepath):
     if "student_id" not in session and not session.get("is_admin"):
         return redirect(url_for("student_login"))
     return send_from_directory(UPLOAD_FOLDER, filepath)
-'''
+
 @app.route("/speaking/submit", methods=["POST"])
 @student_login_required
 def speaking_submit():
@@ -399,6 +430,35 @@ def speaking_submit():
         save_speaking_submission(file, session["student_id"])
         return {"status": "ok"}
     return {"status": "error", "message": "No audio received"}, 400
+'''
+# new
+@app.route("/speaking/submit", methods=["POST"])
+@student_login_required
+def speaking_submit():
+    file = request.files.get("audio")
+    if file and file.filename:
+        save_speaking_submission(file, session["student_id"])
+        return {"status": "ok"}
+    return {"status": "error", "message": "No audio received"}, 400
+
+def save_speaking_submission(file, student_id):
+    filename = secure_filename(file.filename) or "recording.webm"
+    unique_name = f"{uuid.uuid4().hex}_{filename}"
+    subfolder = os.path.join(UPLOAD_FOLDER, "speaking")
+    os.makedirs(subfolder, exist_ok=True)
+    file.save(os.path.join(subfolder, unique_name))
+
+    relative_path = f"speaking/{unique_name}"
+
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute(
+        "INSERT INTO speaking_submissions (student_id, file_path) VALUES (%s, %s)",
+        (student_id, relative_path),
+    )
+    conn.commit()
+    cur.close()
+    conn.close()
     
 @app.route("/assign-task/<int:student_id>", methods=["GET", "POST"])
 @admin_login_required
@@ -407,6 +467,7 @@ def assign_task(student_id):
         # Handle task assignment logic here
         pass
     return render_template("assign_task.html", student_id=student_id)
+    
 @app.route("/admin/upload/mp4", methods=["POST"])
 @admin_login_required
 def admin_upload_mp4():

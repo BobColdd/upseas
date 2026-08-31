@@ -384,13 +384,13 @@ def admin_upload_mp3():
         flash("Please choose a valid MP3 file.")
 
     return redirect(url_for("admin_dashboard"))
-
+'''
 @app.route("/uploads/<path:filepath>")
 def uploaded_file(filepath):
     if "student_id" not in session and not session.get("is_admin"):
         return redirect(url_for("student_login"))
     return send_from_directory(UPLOAD_FOLDER, filepath)
-
+'''
 @app.route("/speaking/submit", methods=["POST"])
 @student_login_required
 def speaking_submit():

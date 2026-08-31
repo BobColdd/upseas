@@ -175,14 +175,14 @@ def reading_module():
 def writing_module():
     return render_template("writing_module.html", firstname=session.get("student_firstname"))
 
-
+'''
 
 @app.route("/listening")
 @student_login_required
 def listening_module():
     return render_template("listening_module.html", firstname=session.get("student_firstname"))
 
-
+'''
 @app.route("/speaking")
 @student_login_required
 def speaking_module():
@@ -221,7 +221,7 @@ def listening_task():
     mp3_notes = cur.fetchall()
     cur.close()
     conn.close()
-    return render_template("listening_task.html", mp3_notes=mp3_notes)
+    return render_template("listening_task.html", mp3_notes=mp3_notes,firstname=session.get("student_firstname"))
     
 # updated
 @app.route("/uploads/<path:filepath>")

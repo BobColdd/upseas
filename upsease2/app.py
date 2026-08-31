@@ -12,6 +12,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
+
 app.secret_key = os.environ.get("SECRET_KEY", "upseasconsultants")
 
 # --- PostgreSQL connection config: edit to match your local setup ---

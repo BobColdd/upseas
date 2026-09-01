@@ -15,6 +15,23 @@ app = Flask(__name__)
 
 app.secret_key = os.environ.get("SECRET_KEY", "upseasconsultants")
 
+
+import boto3
+
+R2_ACCOUNT_ID = os.environ.get("R2_ACCOUNT_ID")
+R2_ACCESS_KEY_ID = os.environ.get("R2_ACCESS_KEY_ID")
+R2_SECRET_ACCESS_KEY = os.environ.get("R2_SECRET_ACCESS_KEY")
+R2_BUCKET_NAME = os.environ.get("R2_BUCKET_NAME")
+R2_PUBLIC_URL = os.environ.get("R2_PUBLIC_URL")
+
+r2_client = boto3.client(
+    "s3",
+    endpoint_url=f"https://{R2_ACCOUNT_ID}.r2.cloudflarestorage.com",
+    aws_access_key_id=R2_ACCESS_KEY_ID,
+    aws_secret_access_key=R2_SECRET_ACCESS_KEY,
+    region_name="auto",
+)
+
 # --- PostgreSQL connection config: edit to match your local setup ---
 DB_HOST = os.environ.get("DB_HOST", "localhost")
 DB_PORT = os.environ.get("DB_PORT", "5432")
@@ -53,19 +70,15 @@ def allowed_file(filename, kind):
     ext = filename.rsplit(".", 1)[-1].lower() if "." in filename else ""
     return ext in ALLOWED_EXTENSIONS[kind]
 
-
 def save_lecture_note(file, title, kind):
     filename = secure_filename(file.filename)
-    unique_name = f"{uuid.uuid4().hex}_{filename}"
-    subfolder = os.path.join(UPLOAD_FOLDER, kind)
-    os.makedirs(subfolder, exist_ok=True)
-    file.save(os.path.join(subfolder, unique_name))
-
-    relative_path = f"{kind}/{unique_name}"
+    object_key = f"{kind}/{uuid.uuid4().hex}_{filename}"
+    r2_client.upload_fileobj(file, R2_BUCKET_NAME, object_key)
+    file_url = f"{R2_PUBLIC_URL}/{object_key}"
 
     conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute("INSERT INTO lecture_notes (title, file_path) VALUES (%s, %s)", (title, relative_path))
+    cur.execute("INSERT INTO lecture_notes (title, file_path) VALUES (%s, %s)", (title, file_url))
     conn.commit()
     cur.close()
     conn.close()
@@ -217,7 +230,8 @@ def speaking_task():
 def listening_task():
     conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute("SELECT id, title, file_path FROM lecture_notes WHERE file_path LIKE 'mp3/%%' ORDER BY id DESC")
+    #cur.execute("SELECT id, title, file_path FROM lecture_notes WHERE file_path LIKE 'mp3/%%' ORDER BY id DESC")
+    cur.execute("SELECT id, title, file_path FROM lecture_notes WHERE file_path LIKE '%%/mp3/%%' ORDER BY id DESC")
     mp3_notes = cur.fetchall()
     cur.close()
     conn.close()
@@ -441,21 +455,17 @@ def speaking_submit():
         save_speaking_submission(file, session["student_id"])
         return {"status": "ok"}
     return {"status": "error", "message": "No audio received"}, 400
-
 def save_speaking_submission(file, student_id):
     filename = secure_filename(file.filename) or "recording.webm"
-    unique_name = f"{uuid.uuid4().hex}_{filename}"
-    subfolder = os.path.join(UPLOAD_FOLDER, "speaking")
-    os.makedirs(subfolder, exist_ok=True)
-    file.save(os.path.join(subfolder, unique_name))
-
-    relative_path = f"speaking/{unique_name}"
+    object_key = f"speaking/{uuid.uuid4().hex}_{filename}"
+    r2_client.upload_fileobj(file, R2_BUCKET_NAME, object_key)
+    file_url = f"{R2_PUBLIC_URL}/{object_key}"
 
     conn = get_db_connection()
     cur = conn.cursor()
     cur.execute(
         "INSERT INTO speaking_submissions (student_id, file_path) VALUES (%s, %s)",
-        (student_id, relative_path),
+        (student_id, file_url),
     )
     conn.commit()
     cur.close()

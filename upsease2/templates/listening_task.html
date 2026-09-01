@@ -252,8 +252,9 @@
                     {% for note in mp3_notes %}
                     <div class="audio-panel" style="margin-bottom: 16px;">
                         <p>{{ note.title }}</p>
-                        <audio controls>
-                            <source src="{{ url_for('uploaded_file', filepath=note.file_path) }}" type="audio/mpeg">
+                        <audio >
+                            
+                        <source src="{{ note.file_path }}" type="audio/mpeg">
                             Your browser does not support the audio element.
                         </audio>
                     </div>
